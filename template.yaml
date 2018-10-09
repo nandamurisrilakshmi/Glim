@@ -1,4 +1,9 @@
 Transform: 'AWS::Serverless-2016-10-31'
+Parameters:
+    BucketName:
+        Type: String
+    CodeKey:
+        Type: String
 Resources:
   glimfunction:
     Type: 'AWS::Serverless::Function'
@@ -7,7 +12,11 @@ Resources:
       Handler: lambda_function.lambda_handler
       Runtime: python3.6
       Timeout: 30
+      CodeUri: 
+           Bucket: !Ref BucketName
+           Key: !Ref CodeKey
       Policies:
+
         - AWSLambdaFullAccess
         - AmazonS3FullAccess
         - AmazonRekognitionFullAccess
