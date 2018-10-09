@@ -1,0 +1,24 @@
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  glimfunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Description: 'Extract context,location,Phone details from web scraped data.'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.6
+      Timeout: 30
+      Policies:
+        - AWSLambdaFullAccess
+        - AmazonS3FullAccess
+        - AmazonRekognitionFullAccess
+        - ComprehendFullAccess
+      
+      Events:
+        gliminputevent:
+          Type: S3
+          Properties:
+            Bucket: !Ref ImageBucket
+            Events: s3:ObjectCreated:*
+            
+  ImageBucket:
+    Type: 'AWS::S3::Bucket'
